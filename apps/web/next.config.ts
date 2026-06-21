@@ -1,7 +1,10 @@
 import type { NextConfig } from 'next'
 
+// standalone apenas para Docker; Vercel detecta automaticamente
+const isVercel = !!process.env.VERCEL
+
 const nextConfig: NextConfig = {
-  output: 'standalone', // necessário para o Dockerfile multi-stage
+  output: isVercel ? undefined : 'standalone',
   experimental: {
     // React 19 features
     ppr: false,
