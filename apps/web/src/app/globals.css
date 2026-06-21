@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* CapiSolutions Design System — Light Mode */
+    --background:   220 33% 98%;   /* #F8FAFC */
+    --foreground:   222 47% 11%;   /* #0F172A */
+
+    --card:         0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover:      0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary:      221 83% 53%;   /* #2563EB */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary:    222 47% 11%;   /* #0F172A */
+    --secondary-foreground: 0 0% 100%;
+
+    --muted:        220 14% 96%;   /* #F1F5F9 */
+    --muted-foreground: 215 16% 47%; /* #64748B */
+
+    --accent:       220 14% 96%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive:  0 84% 60%;     /* #EF4444 */
+    --destructive-foreground: 0 0% 100%;
+
+    --border:       214 32% 91%;   /* #E2E8F0 */
+    --input:        214 32% 91%;
+    --ring:         221 83% 53%;
+
+    --radius: 0.5rem;
+
+    /* Sidebar */
+    --sidebar-bg:        222 47% 11%;   /* #0F172A */
+    --sidebar-fg:        215 16% 80%;
+    --sidebar-fg-active: 0 0% 100%;
+    --sidebar-active:    221 83% 53%;
+    --sidebar-border:    222 47% 16%;
+    --sidebar-width:     260px;
+    --sidebar-collapsed: 72px;
+  }
+
+  .dark {
+    --background:   222 47% 7%;
+    --foreground:   210 40% 98%;
+
+    --card:         222 47% 10%;
+    --card-foreground: 210 40% 98%;
+
+    --popover:      222 47% 10%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary:      221 83% 60%;
+    --primary-foreground: 222 47% 11%;
+
+    --secondary:    217 32% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted:        217 32% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent:       217 32% 17%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive:  0 62% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border:       217 32% 17%;
+    --input:        217 32% 17%;
+    --ring:         221 83% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Scrollbar personalizada */
+  ::-webkit-scrollbar {
+    @apply w-1.5 h-1.5;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/30;
+  }
+}
+
+@layer components {
+  /* Sidebar */
+  .sidebar {
+    width: var(--sidebar-width);
+    transition: width 0.3s ease;
+  }
+
+  .sidebar.collapsed {
+    width: var(--sidebar-collapsed);
+  }
+
+  /* Cards de métricas */
+  .metric-card {
+    @apply bg-card rounded-lg border border-border p-5 shadow-card
+           hover:shadow-card-lg transition-shadow duration-200;
+  }
+
+  /* Page header padrão */
+  .page-header {
+    @apply flex items-center justify-between mb-6 pb-4 border-b border-border;
+  }
+
+  .page-title {
+    @apply text-2xl font-semibold text-foreground;
+  }
+
+  .page-subtitle {
+    @apply text-sm text-muted-foreground mt-0.5;
+  }
+}
