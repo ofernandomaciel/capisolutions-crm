@@ -459,6 +459,3 @@ export function CustomerForm({ customer, mode }: CustomerFormProps) {
       </form>
   )
 }
-</form>
-  )
-}

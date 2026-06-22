@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -12,17 +12,17 @@ import { useAuth } from '@/hooks/useAuth'
 import { cn } from '@/lib/utils'
 
 const loginSchema = z.object({
-  email:    z.string().email('E-mail inválido'),
-  password: z.string().min(6, 'Mínimo de 6 caracteres'),
+  email:    z.string().email('E-mail invalido'),
+  password: z.string().min(6, 'Minimo de 6 caracteres'),
 })
 
 type LoginFormData = z.infer<typeof loginSchema>
 
-export default function LoginPage() {
-  const router      = useRouter()
+function LoginForm() {
+  const router       = useRouter()
   const searchParams = useSearchParams()
-  const redirectTo  = searchParams.get('redirectTo') ?? '/'
-  const { signIn }  = useAuth()
+  const redirectTo   = searchParams.get('redirectTo') ?? '/'
+  const { signIn }   = useAuth()
 
   const [showPassword, setShowPassword] = useState(false)
 
@@ -47,21 +47,14 @@ export default function LoginPage() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      {/* Header */}
       <div className="space-y-1">
         <h1 className="text-2xl font-bold text-foreground">Bem-vindo de volta</h1>
-        <p className="text-muted-foreground text-sm">
-          Entre na sua conta para continuar
-        </p>
+        <p className="text-muted-foreground text-sm">Entre na sua conta para continuar</p>
       </div>
 
-      {/* Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* E-mail */}
         <div className="space-y-1.5">
-          <label htmlFor="email" className="text-sm font-medium text-foreground">
-            E-mail
-          </label>
+          <label htmlFor="email" className="text-sm font-medium text-foreground">E-mail</label>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input
@@ -78,21 +71,13 @@ export default function LoginPage() {
               )}
             />
           </div>
-          {errors.email && (
-            <p className="text-xs text-destructive">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
         </div>
 
-        {/* Senha */}
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <label htmlFor="password" className="text-sm font-medium text-foreground">
-              Senha
-            </label>
-            <Link
-              href="/auth/forgot-password"
-              className="text-xs text-primary hover:underline underline-offset-2"
-            >
+            <label htmlFor="password" className="text-sm font-medium text-foreground">Senha</label>
+            <Link href="/auth/forgot-password" className="text-xs text-primary hover:underline underline-offset-2">
               Esqueci a senha
             </Link>
           </div>
@@ -102,7 +87,7 @@ export default function LoginPage() {
               id="password"
               type={showPassword ? 'text' : 'password'}
               autoComplete="current-password"
-              placeholder="••••••••"
+              placeholder="..."
               {...register('password')}
               className={cn(
                 'w-full h-10 pl-10 pr-10 rounded-lg border bg-background text-sm',
@@ -119,19 +104,15 @@ export default function LoginPage() {
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
           </div>
-          {errors.password && (
-            <p className="text-xs text-destructive">{errors.password.message}</p>
-          )}
+          {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
         </div>
 
-        {/* Botão */}
         <button
           type="submit"
           disabled={isSubmitting}
           className={cn(
             'w-full h-10 rounded-lg bg-primary text-primary-foreground text-sm font-medium',
-            'hover:bg-primary-700 transition-colors',
-            'flex items-center justify-center gap-2',
+            'hover:bg-primary/90 transition-colors flex items-center justify-center gap-2',
             'disabled:opacity-60 disabled:cursor-not-allowed',
           )}
         >
@@ -146,16 +127,20 @@ export default function LoginPage() {
         </button>
       </form>
 
-      {/* Footer */}
       <p className="text-center text-sm text-muted-foreground">
-        Não tem uma conta?{' '}
-        <Link
-          href="/auth/register"
-          className="text-primary font-medium hover:underline underline-offset-2"
-        >
+        Nao tem uma conta?{' '}
+        <Link href="/auth/register" className="text-primary font-medium hover:underline underline-offset-2">
           Criar conta
         </Link>
       </p>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   )
 }
